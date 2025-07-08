@@ -4,3 +4,11 @@ jaise ki koi bhi variable declare khrab indendation mei na ho
 
 
 yo:gert se ham variables print krwayenge, aur npc wale se regular strings
+
+
+
+jo bhi constant variables yaniki jo jo chad se declare hue hain, unhe baadme jab bhi use kro , wo capital case mei hi hone chaiye
+ya to mai unko list mein daalke, jaha jaha use ho unhe khud se upper krdu, 
+identify krke
+ya rule bnadu
+ya user ko error dedu? joki python program khud de dega

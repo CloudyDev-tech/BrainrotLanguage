@@ -4,7 +4,7 @@ import argparse
 import datetime
 import time
 import subprocess
-from sympy import sympify
+import re
 # import sys
 
 
@@ -20,13 +20,21 @@ def sybau_keyword(sybau_line, start):
         var_name_without_space = variable_name.strip()
         return var_name_without_space
 
+def replace_constants(code: str, chad_vars: set) -> str:
+    """Replace chad variables with their uppercase names uisng regex."""
+    for var in chad_vars:
+        code = re.sub(rf'\b{var}\b', var.upper(), code, flags=re.IGNORECASE)
+    return code
 
 def interpret(source):
     """Interpret the given source code for the Esolang language."""
     python_code = ''  #isme add hota rhega
+
+    chad_vars = set() # Set to store chad variables
     print(source)
 
     for line in source:
+        # line= line.strip()  # Remove leading and trailing whitespace
         print(line)
         if line[0] == "$":
             python_code += "#"+line[5:]
@@ -59,8 +67,6 @@ def interpret(source):
 
         elif line[0:4]=='chad':
             new_line = line.rstrip()
-
-
             equal_to_point = None
             for i in range(5, len(new_line)):
                 if new_line[i] == "=":
@@ -69,6 +75,8 @@ def interpret(source):
             if equal_to_point is not None:
                 variable_name = new_line[5:equal_to_point]
                 var_name_without_space_and_upper = variable_name.strip().upper()
+                chad_vars.add(var_name_without_space_and_upper.lower()) # in small case for consistent matching
+
                 if new_line[-5:]=="sybau":
                     variable_value = new_line[equal_to_point+1:-5].lstrip()
                 else:
@@ -90,22 +98,16 @@ def interpret(source):
             else:
                 without_left_space = line[10:].lstrip()
                 python_code += without_left_space + '\n'
-        
-        # elif line[0:4]!='beta' or line[0:4]!='chad' or line[0:10]!='gyat_level':
-        #     # Exception NotDone as e:
-        #     pass
 
         elif line.startswith("yo:gert"):
-            line = line.strip()
-            expression = line[7:].lstrip()
+            expression = line[7:].strip()
             if isinstance(expression, str):
                 # python_code += sympify(expression) + '\n'
                 python_code += "print("f"eval({expression}))" + '\n'
             else:
-                pass # throw error here
-
-
-
+                python_code += f'raise SyntaxError("Expected a string expression after yo:gert: {expression}")\n'
+                
+    python_code = replace_constants(python_code, chad_vars)
 
     print(python_code)
     return python_code
