@@ -1,0 +1,6 @@
+pylint wale kuch errors/limitations apply
+
+jaise ki koi bhi variable declare khrab indendation mei na ho 
+
+
+yo:gert se ham variables print krwayenge, aur npc wale se regular strings
