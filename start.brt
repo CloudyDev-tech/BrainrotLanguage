@@ -2,6 +2,16 @@ $igma THIS IS COMMENT
 
 $igma below is print statement
 npc ahh comment("hello world")
+npc ahh comment("hello world", 45)
+npc ahh comment("hello world", 23, "again", 90/3)
+
+gyat_level start = 1
+npc ahh comment(start w)
+npc ahh comment(start not_my_brick 10)
+
+$igma Input Value to variable
+
+gyat_level number = npc ask("enter number")
 
 $igma below is beta variable declaration (less than 10)
 beta edging_streak = 6
@@ -29,14 +39,27 @@ chad wow = 10
 gyat_level many = wow + 5 sybau
 
 $igma if-elif-else block
-if bruh rizz >= 10 then ratio
+if bruh rizz mogs 10 then ratio {
+$igma (beta mew = 7 sybau)  ===> test pending
     npc ahh comment('beta is now alpha')
+}
 
-else if bruh rizz < 5 then ratio
+else if bruh rizz got_pegged_by 5 then ratio{
+    yo:gert boy
     npc ahh comment('beta has no rizz')
+}
 
-else delulu
+else delulu{
     npc ahh comment('beta has no rizz')
+}
+
+if bruh edging_streak mogs 10 then ratio {
+
+
+$igma if-elif-else block
+    npc ahh comment('beta is now alpha')
+    yo:gert "4*6"
+}
 
 gyat_level      variable    =     100       sybau
 
@@ -44,9 +67,13 @@ $igma while loop
 gyat_level      variable    =     100
 say that again 5 times {
     npc ahh comment("i will goon harder to level ", variable, "gyat")
-    if bruh variable < 50 then ratio
+    if bruh variable < 50 then ratio{
         ragequit
+    }
 }
+
+$igma LIST
+npc got squad <name> = [1,2,3]
 
 grind gyat_boost() {
     npc ahh comment("GYAT INCOMING")

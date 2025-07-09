@@ -4,11 +4,31 @@ jaise ki koi bhi variable declare khrab indendation mei na ho
 
 
 yo:gert se ham variables print krwayenge, aur npc wale se regular strings
+dono hi ab blocks mein space dekar chl rhe hain, bas ek kaam lgana hain .strip line mein
+and fir indent wala to hoga hi, bas uski length
+par likhne mein rule pd gya, ki 4 space do hi andar ka likhne mei
 
 
 
 jo bhi constant variables yaniki jo jo chad se declare hue hain, unhe baadme jab bhi use kro , wo capital case mei hi hone chaiye
-ya to mai unko list mein daalke, jaha jaha use ho unhe khud se upper krdu, 
+ya to mai unko list mein daalke, jaha jaha use ho unhe khud se upper krdu,   -- d
 identify krke
 ya rule bnadu
 ya user ko error dedu? joki python program khud de dega
+
+
+
+sybau hain bhaar ka func, aise bhaar wale aur bnenge, to isme indent ka kaise dhayn rkhe
+
+next: npm ahh comment implement  --d
+npc ahh comment with variables printing too  --d
+
+operators (names wale predecided)
+
+nested if-else? 
+cap, no cap for False, True
+scroll =  continue
+
+Not for now, but I will surely ask for your help in the future. Well how these guys even know these concepts to implement?? i am totally unaware of this much . and Currently, I am looking to scale my language for operator and expression handling. i have chosen some terms for my operators like frfr as "==" ,
+mogs as ">" , got_pegged as "<=" , w for ++, l for --, not my brick as "!=" and so on. I am looking to implement these operators in my language. Can you help me with more examples?
+and "you are not tuff bro" for error handling 

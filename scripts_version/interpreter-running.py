@@ -16,16 +16,16 @@ operator_map = {
     "not_my_brick": "!=",
     "cap": "False",
     "no_cap": "True",
-    "smash": "/",
+    "ratio": "/",
     "nah_fr": "is not"
 }
 
-def replace_ops(line):
-    """Replace slang operators with their Python equivalents."""
-    for slang, op in operator_map.items():
-        # line = line.replace(slang, op)
-        line = re.sub(rf"\b{re.escape(slang)}\b", op, line)
-    return line
+# def replace_ops(line):
+#     """Replace slang operators with their Python equivalents."""
+#     for slang, op in operator_map.items():
+#         # line = line.replace(slang, op)
+#         line = re.sub(rf"\b{re.escape(slang)}\b", op, line)
+#     return line
 
 def sybau_keyword(sybau_line, start):
     """Extracts and returns the variable name from an sybau line, stripping whitespace."""
@@ -58,7 +58,7 @@ def interpret(source):
         #     python_code += "    " * indent_flag
         # line= line.strip()  # Remove leading and trailing whitespace
         print(line)
-        line = replace_ops(line)  
+        # line = replace_ops(line)  
         if line.startswith("$"):
             indent = "    " * indent_flag
             python_code += indent+"#"+line[5:]
