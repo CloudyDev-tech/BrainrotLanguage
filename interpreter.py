@@ -1,9 +1,17 @@
+# pylint: disable=no-else-raise
 """Interpreter module for Esolang."""
 import argparse
 import datetime
 import time
 import subprocess
 import re
+
+class BrainRotSyntaxError(Exception):
+    pass
+class BrainRotNameError(Exception):
+    pass
+class BrainRotRuntimeError(Exception):
+    pass
 
 operator_map = {
     "frfr": "==",
@@ -24,6 +32,23 @@ def replace_ops(line):
         line = re.sub(rf"\b{re.escape(slang)}\b", op, line)
     return line
 
+def check_illegal_ops(expr, i, original_line):
+    """Check for illegal operators in the expression."""
+    for slang, op in operator_map.items():
+        if op in expr and slang not in expr:
+            raise SyntaxError(
+                f"💀 Line {i} cooked too hard: '{original_line}' — drop the '{op}' and speak the slang: '{slang}' 🧠"
+            )
+
+def check_undefined_vars(expr, i, original_line, defined_vars):
+    """Check for undefined variables in the expression."""
+    tokens = re.findall(r'\b[a-zA-Z_]\w*\b', expr)
+    for var in tokens:
+        if var not in defined_vars and var not in dir(__builtins__):
+            raise BrainRotNameError(
+                f"Holy Cornball bro 🤯 Variable '{var}' used before declaration on line {i}"
+            )
+
 def sybau_keyword(sybau_line, start):
     """Extracts and returns the variable name from an sybau line, stripping whitespace."""
     for i in range(start, len(sybau_line)):
@@ -39,16 +64,19 @@ def replace_constants(code: str, chad_vars: set) -> str:
 
 def interpret(source):
     """Interpret the given source code for the Esolang language."""
+    defined_vars = set()
     python_code = ''
-    # print(source)
-    # if "ragequit" in source:
-    #     python_code += "import sys\n\n"
     chad_vars = set()
     indent_flag = 0
 
-    for line in source:
-        line = replace_ops(line.rstrip())
+    for i, line in enumerate(source, start=1):
+        original_line = line
 
+        # Check for slang operators that are not in the original line
+        check_illegal_ops(line, i, original_line)
+
+        line = replace_ops(line.rstrip())
+        
         if '=' in line:
             eq_index = line.index('=')
             right = line[eq_index+1:].strip()
@@ -67,8 +95,22 @@ def interpret(source):
             python_code += indent + "print(" + line.strip()[16:] + "\n"
 
         elif line.strip().startswith("beta"):
+            if "=" not in line:
+                raise BrainRotSyntaxError(f"🚫 NPC behavior not tolerated.\nNonchalant variable declaration on line {i}: missing '='")
             # if part: sybau hain to print bhi saath mei
             # else part:  sirf store krana hain variable
+            # indent = "    " * indent_flag
+            # var_name, expr = line.strip()[5:].split("=", 1)
+            # var_name = var_name.strip()
+            # expr = expr.strip()
+
+            # check_illegal_ops(expr, i, original_line)
+            
+            # check_undefined_vars(expr, i, original_line, defined_vars)
+            # expr = replace_ops(expr)
+            
+            # defined_vars.add(var_name)
+            # python_code += indent + f"{var_name} = {expr}\n"
             indent = "    " * indent_flag
             new_line = line.strip()
             eq_index = new_line.find("=")
@@ -84,6 +126,8 @@ def interpret(source):
                     python_code += "\n" + indent + f"{var_name} = {value}\n"
     
         elif line.strip().startswith("chad"):
+            if "=" not in line:
+                raise BrainRotSyntaxError(f"🚫 NPC behavior not tolerated.\nNonchalant variable declaration on line {i}: missing '='")
             indent = "    " * indent_flag
             new_line = line.strip()
             eq_index = new_line.find("=")
@@ -99,6 +143,8 @@ def interpret(source):
                     python_code += "\n" + indent + f"{var_name} = {value}\n"
 
         elif line.strip().startswith("gyat_level"):
+            if "=" not in line:
+                raise BrainRotSyntaxError(f"🚫 NPC behavior not tolerated.\nNonchalant variable declaration on line {i}: missing '='")
             indent = "    " * indent_flag
             new_line = line.strip()
             eq_index = new_line.find("=")
@@ -185,10 +231,15 @@ def main():
 
     # Run the script
     try:
-        subprocess.run(["python", filename], check=True) # check should be true
+        subprocess.run(["python", filename], check=True, capture_output=True, text=True)
     except subprocess.CalledProcessError as e:
-        # print(f"💥 Script crashed at line ~{line_trace_map.get(e.__traceback__.tb_lineno, '?')}")
-        print("you are not tuff bro 💀\nScript failed with exit code:", e.returncode)
+        stderr = e.stderr or e.output
+        match = re.search(r"NameError: name '(\w+)' is not defined", stderr)
+        if match:
+            var = match.group(1)
+            raise BrainRotNameError(f"Holy Cornball bro 🤯 Variable '{var}' used before declaration.") from e
+        else:
+            print("you are not tuff bro 💀💔\nScript failed with exit code:", e.returncode)
     finally:
         print("\nThanks for trying out BrainRotLang! You are certified edger and rizzler now! 🥵")
 
