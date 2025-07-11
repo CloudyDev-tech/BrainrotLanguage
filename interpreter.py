@@ -234,12 +234,20 @@ def main():
         subprocess.run(["python", filename], check=True, capture_output=True, text=True)
     except subprocess.CalledProcessError as e:
         stderr = e.stderr or e.output
-        match = re.search(r"NameError: name '(\w+)' is not defined", stderr)
-        if match:
-            var = match.group(1)
+
+        # Handle NameError
+        match_name = re.search(r"NameError: name '(\w+)' is not defined", stderr)
+        if match_name:
+            var = match_name.group(1)
             raise BrainRotNameError(f"Holy Cornball bro 🤯 Variable '{var}' used before declaration.") from e
-        else:
-            print("you are not tuff bro 💀💔\nScript failed with exit code:", e.returncode)
+
+        # Handle SyntaxError
+        match_syntax = re.search(r"SyntaxError: (.*)", stderr)
+        if match_syntax:
+            reason = match_syntax.group(1)
+            raise BrainRotSyntaxError(f"💥 You cooked up a Syntax Error: {reason.strip()}") from e
+
+        print("you are not tuff bro 💀💔\nScript failed with exit code:", e.returncode)
     finally:
         print("\nThanks for trying out BrainRotLang! You are certified edger and rizzler now! 🥵")
 
