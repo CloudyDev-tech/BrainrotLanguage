@@ -270,7 +270,7 @@ Checkout the [.brt file examples](examples/) folder for more.
 
 ## 🌐 Try it Online
 
-Coming soon: [brainrotlang.vercel.app](#) or [Streamlit Demo](#)
+[Streamlit Demo](https://brainrotlanguage.streamlit.app/)
 
 ---
 
