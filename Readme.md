@@ -262,7 +262,7 @@ gyat_level gamma = t + 12
 BrainRotNameError: Holy Cornball bro 🤯 Variable 't' used before declaration.
 
 AND MANY MORE...
-Checkout the [.brt file examples](#) folder for more.
+Checkout the [.brt file examples](examples/) folder for more.
 
 ---
 
